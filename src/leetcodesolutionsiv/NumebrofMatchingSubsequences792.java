@@ -30,7 +30,7 @@ public class NumebrofMatchingSubsequences792
             if(map.containsKey(currChar))
             {
                 List<String> temp = map.get(currChar);
-                temp.remove(currChar);
+                map.remove(currChar);
                 int count = getCountsAndUpdate(temp, map);
                 result += count;
             }
@@ -55,7 +55,7 @@ public class NumebrofMatchingSubsequences792
                 {
                     map.put(currChar, new ArrayList<>());
                 }
-                map.get(currChar).add(sub);
+                map.get(currChar).add(subString);
             }
         }
         
