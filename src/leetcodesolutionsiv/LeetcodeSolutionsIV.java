@@ -6,7 +6,8 @@ public class LeetcodeSolutionsIV
 {
     public static void main(String[] args)
     {
-        System.out.println(new NumSubArrayProdLessthanK713().numSubarrayProductLessThanK(new int[]{10,5,2,6}, 100));
+        int[][] graph = new int[][]{{1,2},{3},{3},{}};
+        System.out.println(new AllPathsFromSourcetoTarget797().allPathsSourceTarget(graph));
     }
     
 }
