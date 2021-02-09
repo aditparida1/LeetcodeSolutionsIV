@@ -37,7 +37,7 @@ public class AmazonSkillsTurnStile
             }
             else
             {
-                if(enterCust.time < exitCust.time)
+                if(enterCust.time < global)
                 {
                     enterCust.time = global;
                 }
