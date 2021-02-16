@@ -7,13 +7,7 @@ public class LeetcodeSolutionsIV
     public static void main(String[] args)
     {
         
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        var obj = new CBTTreeInserter919(root);
-        System.out.println(obj.insert(3));
-        System.out.println(obj.insert(4));
-        System.out.println(obj.insert(5));
-        System.out.println(obj.insert(6));
+        System.out.println(new NumofSubArrayWithSum930().numSubarraysWithSum(new int[]{1,0,1,0,1}, 2));
     }
     
 }
