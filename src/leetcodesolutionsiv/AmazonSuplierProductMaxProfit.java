@@ -11,68 +11,38 @@ import java.util.*;
  */
 public class AmazonSuplierProductMaxProfit
 {
-    public long getMaxProfit(int supplierCount, List<Integer> inventory, int order)
+    public long getMaxProfit(int supplierCount, int[] inventory, int orders)
     {
-        long result = 0;
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < inventory.size(); i++)
-        {
-            if(!map.containsKey(inventory.get(i)))
-            {
-                map.put(inventory.get(i), 1);
+        int mod = 1000000007;
+        Arrays.sort(inventory);
+        int curIndex = inventory.length - 1;
+        int curValue = inventory[curIndex];
+        long profit = 0;
+        while (orders > 0) {
+            while (curIndex >= 0 && inventory[curIndex] == curValue) {
+                curIndex--;
             }
-            else
-            {
-                map.put(inventory.get(i),inventory.get(i)+ 1);
+            // if all colors of balls are the same value, nextValue is 0
+            int nextValue = curIndex < 0 ? 0 : inventory[curIndex];
+            // number of colors of balls with same value 
+            int numSameColor = inventory.length - 1 - curIndex;
+            // number of items to buy
+            int nums = (curValue - nextValue) * numSameColor;
+            if (orders >= nums) {
+                // buy all items
+                profit += (long)(curValue + nextValue + 1) * (curValue - nextValue) / 2 * numSameColor;
+            } else {
+			    // orders left is less than the number of items to buy
+                int numFullRow = orders / numSameColor;
+                int remainder = orders % numSameColor;
+                profit += (long)(curValue + curValue - numFullRow + 1) * numFullRow / 2 * numSameColor;
+                profit += (long)(curValue - numFullRow) * remainder;
             }
+            orders -= nums;
+            profit = profit % mod;
+            curValue = nextValue;
         }
-        
-        PriorityQueue<Holder> pq = new PriorityQueue<>();
-        for(int key: map.keySet())
-        {
-            pq.add(new Holder(key, map.get(key)));
-        }
-        
-        while(order > 0)
-        {
-            Holder max = pq.poll();
-            if(order <= max.freq)
-            {
-                order = 0;
-                result += order * max.num;
-            }
-            else
-            {
-                Holder secondmax = new Holder(0,0);
-                if(pq.size() != 0)
-                {
-                     secondmax = pq.poll();
-                }
-                
-                int k = 0;
-                int maxrounds = max.num - secondmax.num;
-                while(k <= maxrounds && k * max.freq <= order)
-                    k++;
-                if(k * max.freq > order || k > maxrounds)
-                {
-                    k--;
-                }
-                result += sum(max.num, k) * max.freq;
-                order -= k * max.freq;
-                if(max.num - k == secondmax.num)
-                {
-                    secondmax.freq += max.freq;
-                    pq.add(secondmax);
-                }
-                else
-                {
-                    max.num -= k;
-                    pq.add(max);
-                }
-            }
-        }
-        
-        return result;
+        return (int)profit;
     }
     public long sum(int num, int rounds)
     {
